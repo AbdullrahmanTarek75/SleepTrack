@@ -1,6 +1,5 @@
 import streamlit as st
-import subprocess
-import os
+from pyswip import Prolog
 
 # User interface
 st.set_page_config(page_title="🛌 Sleep Expert System", page_icon="🌙", layout="centered")
@@ -53,14 +52,15 @@ if submitted:
 
     st.info("📋 Your answers have been saved, and the analysis is in progress...")
 
-    # Run Prolog
-    try:
-        result = subprocess.run(
-            ["swipl", "-s", "sleep_expert.pl", "-g", "start", "-t", "halt"],
-            capture_output=True, text=True
-        )
-        output = result.stdout.strip()
-        st.success("✅ Diagnosis:")
-        st.code(output, language="markdown")
-    except Exception as e:
-        st.error(f"An error occurred while running the system: {e}")
+    # Initialize Prolog
+    prolog = Prolog()
+    prolog.consult("sleep_expert.pl")  # Load Prolog file
+
+    # Query the system for diagnosis
+    result = list(prolog.query("start"))
+
+    if result:
+        diagnosis = result[0].get("Diagnosis", "Unknown")
+        st.success(f"✅ Diagnosis: {diagnosis}")
+    else:
+        st.error("Could not determine the condition.")
