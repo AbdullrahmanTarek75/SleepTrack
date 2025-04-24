@@ -1,1 +1,1 @@
-swipl
+pyswip
