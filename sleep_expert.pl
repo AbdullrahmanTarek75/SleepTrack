@@ -1,4 +1,4 @@
-:- dynamic known/2. 
+:- dynamic known/2.
 :- [facts].
 
 ask(Question) :-
@@ -61,4 +61,3 @@ advice('Poor Sleep Hygiene') :-
 
 advice('Stress-Related Sleep Disorder') :-
     write(" Advice: Practice relaxation exercises and talk to a friend or mental health professional.").
-
